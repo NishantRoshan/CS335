@@ -1,0 +1,361 @@
+Terminals which are not used
+
+   T_WSEP
+
+
+Grammar
+
+    0 $accept: dissertation $end
+
+    1 dissertation: T_TITLE chapters
+
+    2 chapters: chapter chapters
+    3         | chapter
+
+    4 chapter: T_CHAPTER follow
+
+    5 follow: sections
+    6       | paragraphs sections
+    7       | paragraphs
+
+    8 sections: section
+    9         | section sections
+
+   10 section: T_SECTION paragraphs
+
+   11 paragraphs: paragraph paragraphs
+   12           | paragraph
+
+   13 paragraph: sentence paragraph
+   14          | sentence T_PARASEP
+   15          | sentence T_EOL
+
+   16 sentence: literals sentence_separator
+
+   17 sentence_separator: T_SSEP
+
+   18 literals: /* empty */
+   19         | T_WORD literals
+   20         | T_NUMERAL literals
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+T_WORD (258) 19
+T_NUMERAL (259) 20
+T_EOL (260) 15
+T_PARASEP (261) 14
+T_WSEP (262)
+T_TITLE (263) 1
+T_CHAPTER (264) 4
+T_SECTION (265) 10
+T_SSEP (266) 17
+
+
+Nonterminals, with rules where they appear
+
+$accept (12)
+    on left: 0
+dissertation (13)
+    on left: 1, on right: 0
+chapters (14)
+    on left: 2 3, on right: 1 2
+chapter (15)
+    on left: 4, on right: 2 3
+follow (16)
+    on left: 5 6 7, on right: 4
+sections (17)
+    on left: 8 9, on right: 5 6 9
+section (18)
+    on left: 10, on right: 8 9
+paragraphs (19)
+    on left: 11 12, on right: 6 7 10 11
+paragraph (20)
+    on left: 13 14 15, on right: 11 12 13
+sentence (21)
+    on left: 16, on right: 13 14 15
+sentence_separator (22)
+    on left: 17, on right: 16
+literals (23)
+    on left: 18 19 20, on right: 16 19 20
+
+
+state 0
+
+    0 $accept: . dissertation $end
+
+    T_TITLE  shift, and go to state 1
+
+    dissertation  go to state 2
+
+
+state 1
+
+    1 dissertation: T_TITLE . chapters
+
+    T_CHAPTER  shift, and go to state 3
+
+    chapters  go to state 4
+    chapter   go to state 5
+
+
+state 2
+
+    0 $accept: dissertation . $end
+
+    $end  shift, and go to state 6
+
+
+state 3
+
+    4 chapter: T_CHAPTER . follow
+
+    T_WORD     shift, and go to state 7
+    T_NUMERAL  shift, and go to state 8
+    T_SECTION  shift, and go to state 9
+
+    $default  reduce using rule 18 (literals)
+
+    follow      go to state 10
+    sections    go to state 11
+    section     go to state 12
+    paragraphs  go to state 13
+    paragraph   go to state 14
+    sentence    go to state 15
+    literals    go to state 16
+
+
+state 4
+
+    1 dissertation: T_TITLE chapters .
+
+    $default  reduce using rule 1 (dissertation)
+
+
+state 5
+
+    2 chapters: chapter . chapters
+    3         | chapter .
+
+    T_CHAPTER  shift, and go to state 3
+
+    $default  reduce using rule 3 (chapters)
+
+    chapters  go to state 17
+    chapter   go to state 5
+
+
+state 6
+
+    0 $accept: dissertation $end .
+
+    $default  accept
+
+
+state 7
+
+   19 literals: T_WORD . literals
+
+    T_WORD     shift, and go to state 7
+    T_NUMERAL  shift, and go to state 8
+
+    $default  reduce using rule 18 (literals)
+
+    literals  go to state 18
+
+
+state 8
+
+   20 literals: T_NUMERAL . literals
+
+    T_WORD     shift, and go to state 7
+    T_NUMERAL  shift, and go to state 8
+
+    $default  reduce using rule 18 (literals)
+
+    literals  go to state 19
+
+
+state 9
+
+   10 section: T_SECTION . paragraphs
+
+    T_WORD     shift, and go to state 7
+    T_NUMERAL  shift, and go to state 8
+
+    $default  reduce using rule 18 (literals)
+
+    paragraphs  go to state 20
+    paragraph   go to state 14
+    sentence    go to state 15
+    literals    go to state 16
+
+
+state 10
+
+    4 chapter: T_CHAPTER follow .
+
+    $default  reduce using rule 4 (chapter)
+
+
+state 11
+
+    5 follow: sections .
+
+    $default  reduce using rule 5 (follow)
+
+
+state 12
+
+    8 sections: section .
+    9         | section . sections
+
+    T_SECTION  shift, and go to state 9
+
+    $default  reduce using rule 8 (sections)
+
+    sections  go to state 21
+    section   go to state 12
+
+
+state 13
+
+    6 follow: paragraphs . sections
+    7       | paragraphs .
+
+    T_SECTION  shift, and go to state 9
+
+    $default  reduce using rule 7 (follow)
+
+    sections  go to state 22
+    section   go to state 12
+
+
+state 14
+
+   11 paragraphs: paragraph . paragraphs
+   12           | paragraph .
+
+    T_WORD     shift, and go to state 7
+    T_NUMERAL  shift, and go to state 8
+
+    T_SSEP    reduce using rule 18 (literals)
+    $default  reduce using rule 12 (paragraphs)
+
+    paragraphs  go to state 23
+    paragraph   go to state 14
+    sentence    go to state 15
+    literals    go to state 16
+
+
+state 15
+
+   13 paragraph: sentence . paragraph
+   14          | sentence . T_PARASEP
+   15          | sentence . T_EOL
+
+    T_WORD     shift, and go to state 7
+    T_NUMERAL  shift, and go to state 8
+    T_EOL      shift, and go to state 24
+    T_PARASEP  shift, and go to state 25
+
+    $default  reduce using rule 18 (literals)
+
+    paragraph  go to state 26
+    sentence   go to state 15
+    literals   go to state 16
+
+
+state 16
+
+   16 sentence: literals . sentence_separator
+
+    T_SSEP  shift, and go to state 27
+
+    sentence_separator  go to state 28
+
+
+state 17
+
+    2 chapters: chapter chapters .
+
+    $default  reduce using rule 2 (chapters)
+
+
+state 18
+
+   19 literals: T_WORD literals .
+
+    $default  reduce using rule 19 (literals)
+
+
+state 19
+
+   20 literals: T_NUMERAL literals .
+
+    $default  reduce using rule 20 (literals)
+
+
+state 20
+
+   10 section: T_SECTION paragraphs .
+
+    $default  reduce using rule 10 (section)
+
+
+state 21
+
+    9 sections: section sections .
+
+    $default  reduce using rule 9 (sections)
+
+
+state 22
+
+    6 follow: paragraphs sections .
+
+    $default  reduce using rule 6 (follow)
+
+
+state 23
+
+   11 paragraphs: paragraph paragraphs .
+
+    $default  reduce using rule 11 (paragraphs)
+
+
+state 24
+
+   15 paragraph: sentence T_EOL .
+
+    $default  reduce using rule 15 (paragraph)
+
+
+state 25
+
+   14 paragraph: sentence T_PARASEP .
+
+    $default  reduce using rule 14 (paragraph)
+
+
+state 26
+
+   13 paragraph: sentence paragraph .
+
+    $default  reduce using rule 13 (paragraph)
+
+
+state 27
+
+   17 sentence_separator: T_SSEP .
+
+    $default  reduce using rule 17 (sentence_separator)
+
+
+state 28
+
+   16 sentence: literals sentence_separator .
+
+    $default  reduce using rule 16 (sentence)
