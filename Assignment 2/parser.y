@@ -31,7 +31,7 @@
 %error-verbose
 %%
 
-dissertation : T_TITLE chapters               {printf("%s",$1);}
+dissertation : T_TITLE chapters              {printf("%s",$1);}
 chapters: chapter chapters 
         | chapter
 chapter : T_CHAPTER follow                    {chapters++;

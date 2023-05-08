@@ -1,5 +1,6 @@
 %{
     #include <bits/stdc++.h>
+   
     using namespace std;
    
     map<string,vector<string> > mp;
@@ -17,69 +18,69 @@ STRING        \"([^\\\n"]|(\\.))*?\"
 DIGITS        [0-9]+
 
 %%
-{KEYWORD}                                        {if(mp.find(YYText())==mp.end()){
-                                                         mp[YYText()] = {YYText(),"Keyword","1"};
-                                                         vec.push_back({YYText(),"Keyword","1"});
+{KEYWORD}                                        {if(mp.find(yytext)==mp.end()){
+                                                         mp[yytext] = {yytext,"Keyword","1"};
+                                                         vec.push_back({yytext,"Keyword","1"});
                                                   }
                                                    else{
-                                                      auto it = find(vec.begin(),vec.end(),mp[YYText()]);
-                                                      vec[it-vec.begin()] = {YYText(),"Keyword",to_string(stoi(mp[YYText()][2])+1)};
-                                                      mp[YYText()] = {YYText(),"Keyword",to_string(stoi(mp[YYText()][2])+1)};                     
+                                                      auto it = find(vec.begin(),vec.end(),mp[yytext]);
+                                                      vec[it-vec.begin()] = {yytext,"Keyword",to_string(stoi(mp[yytext][2])+1)};
+                                                      mp[yytext] = {yytext,"Keyword",to_string(stoi(mp[yytext][2])+1)};                     
                                                    }
                                                  }
 
-"+"|"-"|"*"|"/"|"."|":="|"="|"<>"|"<"|"<="|">="|">"|"^"|and|or|not|div|mod|in               {if(mp.find(YYText())==mp.end()){
-                                                                                                    mp[YYText()] = {YYText(),"Operator","1"};
-                                                                                                    vec.push_back({YYText(),"Operator","1"});
+"+"|"-"|"*"|"/"|"."|":="|"="|"<>"|"<"|"<="|">="|">"|"^"|and|or|not|div|mod|in               {if(mp.find(yytext)==mp.end()){
+                                                                                                    mp[yytext] = {yytext,"Operator","1"};
+                                                                                                    vec.push_back({yytext,"Operator","1"});
                                                                                              }
                                                                                                 else{
-                                                                                                   auto it = find(vec.begin(),vec.end(),mp[YYText()]);
-                                                                                                   vec[it-vec.begin()] = {YYText(),"Operator",to_string(stoi(mp[YYText()][2])+1)};
-                                                                                                   mp[YYText()] = {YYText(),"Operator",to_string(stoi(mp[YYText()][2])+1)};                     
+                                                                                                   auto it = find(vec.begin(),vec.end(),mp[yytext]);
+                                                                                                   vec[it-vec.begin()] = {yytext,"Operator",to_string(stoi(mp[yytext][2])+1)};
+                                                                                                   mp[yytext] = {yytext,"Operator",to_string(stoi(mp[yytext][2])+1)};                     
                                                                                                 }
                                                                                              }
 
-","|";"|":"|"("|")"|"["|"]"|".."                 {if(mp.find(YYText())==mp.end()){
-                                                         mp[YYText()] = {YYText(),"Separator","1"};
-                                                         vec.push_back({YYText(),"Separator","1"});
+","|";"|":"|"("|")"|"["|"]"|".."                 {if(mp.find(yytext)==mp.end()){
+                                                         mp[yytext] = {yytext,"Separator","1"};
+                                                         vec.push_back({yytext,"Separator","1"});
                                                   }
                                                    else{
-                                                      auto it = find(vec.begin(),vec.end(),mp[YYText()]);
-                                                      vec[it-vec.begin()] = {YYText(),"Separator",to_string(stoi(mp[YYText()][2])+1)};
-                                                      mp[YYText()] = {YYText(),"Separator",to_string(stoi(mp[YYText()][2])+1)};                     
+                                                      auto it = find(vec.begin(),vec.end(),mp[yytext]);
+                                                      vec[it-vec.begin()] = {yytext,"Separator",to_string(stoi(mp[yytext][2])+1)};
+                                                      mp[yytext] = {yytext,"Separator",to_string(stoi(mp[yytext][2])+1)};                     
                                                    }
                                                  }
 
-{IDENTIFIER}                                     {if(mp.find(YYText())==mp.end()){
-                                                         mp[YYText()] = {YYText(),"Identifier","1"};
-                                                         vec.push_back({YYText(),"Identifier","1"});
+{IDENTIFIER}                                     {if(mp.find(yytext)==mp.end()){
+                                                         mp[yytext] = {yytext,"Identifier","1"};
+                                                         vec.push_back({yytext,"Identifier","1"});
                                                   }
                                                    else{
-                                                      auto it = find(vec.begin(),vec.end(),mp[YYText()]);
-                                                      vec[it-vec.begin()] = {YYText(),"Identifier",to_string(stoi(mp[YYText()][2])+1)};
-                                                      mp[YYText()] = {YYText(),"Identifier",to_string(stoi(mp[YYText()][2])+1)};                     
+                                                      auto it = find(vec.begin(),vec.end(),mp[yytext]);
+                                                      vec[it-vec.begin()] = {yytext,"Identifier",to_string(stoi(mp[yytext][2])+1)};
+                                                      mp[yytext] = {yytext,"Identifier",to_string(stoi(mp[yytext][2])+1)};                     
                                                    }
                                                  }
 
-{STRING}                                         {if(mp.find(YYText())==mp.end()){
-                                                         mp[YYText()] = {YYText(),"String","1"};
-                                                         vec.push_back({YYText(),"String","1"});
+{STRING}                                         {if(mp.find(yytext)==mp.end()){
+                                                         mp[yytext] = {yytext,"String","1"};
+                                                         vec.push_back({yytext,"String","1"});
                                                   }
                                                    else{
-                                                      auto it = find(vec.begin(),vec.end(),mp[YYText()]);
-                                                      vec[it-vec.begin()] = {YYText(),"String",to_string(stoi(mp[YYText()][2])+1)};
-                                                      mp[YYText()] = {YYText(),"String",to_string(stoi(mp[YYText()][2])+1)};                     
+                                                      auto it = find(vec.begin(),vec.end(),mp[yytext]);
+                                                      vec[it-vec.begin()] = {yytext,"String",to_string(stoi(mp[yytext][2])+1)};
+                                                      mp[yytext] = {yytext,"String",to_string(stoi(mp[yytext][2])+1)};                     
                                                    }
                                                  }
 
-{DIGITS}("."{DIGITS})?([Ee][+-]?{DIGITS})?         {if(mp.find(YYText())==mp.end()){
-                                                         mp[YYText()] = {YYText(),"Literal","1"};
-                                                         vec.push_back({YYText(),"Literal","1"});
+{DIGITS}("."{DIGITS})?([Ee][+-]?{DIGITS})?         {if(mp.find(yytext)==mp.end()){
+                                                         mp[yytext] = {yytext,"Literal","1"};
+                                                         vec.push_back({yytext,"Literal","1"});
                                                   }
                                                    else{
-                                                      auto it = find(vec.begin(),vec.end(),mp[YYText()]);
-                                                      vec[it-vec.begin()] = {YYText(),"Literal",to_string(stoi(mp[YYText()][2])+1)};
-                                                      mp[YYText()] = {YYText(),"Literal",to_string(stoi(mp[YYText()][2])+1)};                     
+                                                      auto it = find(vec.begin(),vec.end(),mp[yytext]);
+                                                      vec[it-vec.begin()] = {yytext,"Literal",to_string(stoi(mp[yytext][2])+1)};
+                                                      mp[yytext] = {yytext,"Literal",to_string(stoi(mp[yytext][2])+1)};                     
                                                    }
                                                  }
 
@@ -87,7 +88,7 @@ DIGITS        [0-9]+
 
 [ \t\n\r\f]                                      /* This is to eat up blanks,whitespace and line terminators */
 
-.                                                {printf("Error: Illegal character %s in line number %d\n",YYText(),yylineno);
+.                                                {printf("Error: Illegal character %s in line number %d\n",yytext,yylineno);
                                                   return 0;
                                                   }
 %%
